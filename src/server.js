@@ -21,7 +21,10 @@ app.use(express.json())
 // Variables globales
 
 
-// Rutas    
+// Rutas
+app.get("/", (req,res)=>{
+    res.status(200).json({bienvenida:"Bienvenido a la API de veterinary management",documentacion:"Porvafor revisa la documentacion"})
+})    
 app.use('/api',routerVeterinarios)
 app.use('/api',routerPacientes)
 app.use((req,res)=>res.status(404).send("Endpoint no encontrado - 404"))
