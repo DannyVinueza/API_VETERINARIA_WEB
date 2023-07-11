@@ -10,7 +10,40 @@ import {
     registrarPaciente,
 } from "../controllers/paciente_controller.js";
 
-router.get("/pacientes",verificarAutenticacion,listarPacientes);
+/**
+ * @swagger
+ * tags:
+ *   name: Pacientes
+ *   description: Operaciones relacionadas con los pacientes
+ */
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
+/**
+ * @swagger
+ * /pacientes:
+ *   get:
+ *     summary: Obtener todos los pacientes
+ *     tags: [Pacientes]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de pacientes
+ *       401:
+ *         description: No autorizado
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.get("/pacientes", verificarAutenticacion, listarPacientes);
 router.get("/paciente/:id",verificarAutenticacion, detallePaciente);
 router.post("/paciente/registro", verificarAutenticacion,registrarPaciente);
 router.put("/paciente/actualizar/:id", verificarAutenticacion,actualizarPaciente);
