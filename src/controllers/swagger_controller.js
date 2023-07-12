@@ -1,5 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import Paciente from '../models/Paciente.js';
+import Veterinario from '../models/Veterinario.js';
 
 const options = {
   definition: {
@@ -10,11 +12,17 @@ const options = {
     },
     servers: [
       {
-        url: 'https://veterinary-managment.onrender.com/',
+        url: 'https://veterinary-managment.onrender.com/api',
       },
     ],
   },
-  apis: ['../routers/*.js', '../database.js'],
+  apis: ['src/routers/*.js', '../database.js'],
+  components:{
+    schemas:{
+      Paciente,
+      Veterinario
+    }
+  }
 };
 
 const swaggerSpec = swaggerJSDoc(options);
