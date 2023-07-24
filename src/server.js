@@ -25,7 +25,9 @@ app.use(express.json())
 
 // Rutas
 app.get("/", (req,res)=>{
-    res.status(200).json({bienvenida:"Bienvenido a la API de veterinary management",documentacion:"Porvafor revisa la documentacion"})
+    res.status(200).json({bienvenida:"Bienvenido a la API de veterinary management",
+    documentacion:"Porfavor revisa la documentación en el siguiente link",
+    linkDocumentacion:"https://veterinary-managment.onrender.com/api/docs"})
 })    
 app.use('/api',routerVeterinarios)
 app.use('/api',routerPacientes)
