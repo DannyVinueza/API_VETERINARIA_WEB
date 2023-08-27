@@ -154,7 +154,6 @@ router.get("/paciente/:id",verificarAutenticacion, detallePaciente);
  *           type: string
  *       - in: formData
  *         name: veterinario
- *         required: true
  *         description: ID de un veterinario existente.
  *         schema:
  *           type: string
