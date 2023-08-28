@@ -43,6 +43,11 @@ const router = Router();
  *         - celular
  *         - convencional
  *         - sintomas
+ *     securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
 /**
  * @swagger
@@ -123,9 +128,9 @@ router.get("/pacientes", verificarAutenticacion, listarPacientes);
  *       '404':
  *         description: Paciente no encontrado
  */
-router.get("/paciente/:id", verificarAutenticacion, detallePaciente);
-router.put("/paciente/:id", verificarAutenticacion, actualizarPaciente);
-router.delete("/paciente/:id", verificarAutenticacion, eliminarPaciente);
+router.get("/paciente/:id",verificarAutenticacion, detallePaciente);
+router.put("/paciente/actualizar/:id", verificarAutenticacion,actualizarPaciente);
+router.delete("/paciente/eliminar/:id", verificarAutenticacion,eliminarPaciente);
 
 /**
  * @swagger

@@ -1,7 +1,8 @@
-
+// Hacer la importación de la función router por parte de express
 import { Router } from 'express';
 import verificarAutenticacion from '../middlewares/autenticacion.js';
 import {
+    // Importar funciones controladoras
     login,
     perfil,
     registro,
@@ -13,8 +14,9 @@ import {
     recuperarPassword,
     comprobarTokenPassword,
     nuevoPassword,
-} from '../controllers/veterinario_controller.js';
+} from "../controllers/veterinario_controller.js";
 
+// Inicializar la función en la variable router
 const router = Router();
 
 /**
@@ -26,206 +28,127 @@ const router = Router();
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     LoginInput:
- *       type: object
- *       properties:
- *         email:
- *           type: string
- *         password:
- *           type: string
- *       required:
- *         - email
- *         - password
- *     RegistroInput:
- *       type: object
- *       properties:
- *         nombre:
- *           type: string
- *         apellido:
- *           type: string
- *         direccion:
- *           type: string
- *         telefono:
- *           type: number
- *         email:
- *           type: string
- *         password:
- *           type: string
- *       required:
- *         - nombre
- *         - apellido
- *         - email
- *         - password
- *     RecuperarPasswordInput:
- *       type: object
- *       properties:
- *         email:
- *           type: string
- *       required:
- *         - email
- *     NuevoPasswordInput:
- *       type: object
- *       properties:
- *         password:
- *           type: string
- *         confirmpassword:
- *           type: string
- *       required:
- *         - password
- *         - confirmpassword
- *     ActualizarPerfilInput:
- *       type: object
- *       properties:
- *         nombre:
- *           type: string
- *         apellido:
- *           type: string
- *         direccion:
- *           type: string
- *         telefono:
- *           type: number
- *         email:
- *           type: string
- *       required:
- *         - nombre
- *         - apellido
- *         - email
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- */
-
-/**
- * @swagger
- * /login:
+ * /veterinario/login:
  *   post:
  *     summary: Iniciar sesión
- *     description: Iniciar sesión con credenciales de veterinario.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/LoginInput'
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - email
+ *               - password
  *     responses:
  *       '200':
- *         description: Inicio de sesión exitoso.
- *       '404':
- *         description: Credenciales inválidas o usuario no encontrado.
+ *         description: Inicio de sesión exitoso
+ *       '400':
+ *         description: Campos incompletos o credenciales incorrectas
  */
-router.post('/login', login);
+router.post("/login", login);
 
 /**
  * @swagger
- * /registro:
+ * /veterinario/registro:
  *   post:
  *     summary: Registrar nuevo veterinario
- *     description: Registrar un nuevo veterinario en la base de datos.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/RegistroInput'
+ *             $ref: '#/components/schemas/VeterinarioInput'
  *     responses:
  *       '200':
- *         description: Veterinario registrado exitosamente.
+ *         description: Veterinario registrado exitosamente
  *       '400':
- *         description: Datos inválidos o veterinario existente.
+ *         description: Campos incompletos o email ya registrado
  */
-
-router.post('/registro', registro);
+router.post("/registro", registro);
 
 /**
  * @swagger
- * /confirmar/{token}:
+ * /veterinario/confirmar/{token}:
  *   get:
- *     summary: Confirmar cuenta de correo electrónico
- *     description: Confirmar la cuenta de correo electrónico utilizando un token.
+ *     summary: Confirmar correo electrónico
  *     parameters:
  *       - name: token
  *         in: path
  *         required: true
- *         description: Token de confirmación de cuenta
  *         schema:
  *           type: string
  *     responses:
  *       '200':
- *         description: Cuenta de correo electrónico confirmada exitosamente.
+ *         description: Correo electrónico confirmado, ya puedes iniciar sesión
+ *       '404':
+ *         description: Token inválido
  */
-router.get('/confirmar/:token', confirmEmail);
+router.get("/confirmar/:token", confirmEmail);
 
 /**
  * @swagger
- * /veterinarios:
+ * /veterinario/veterinarios:
  *   get:
  *     summary: Obtener lista de veterinarios
- *     description: Obtener una lista de todos los veterinarios registrados.
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       '200':
- *         description: Lista de veterinarios obtenida exitosamente.
- *       '401':
- *         description: Acceso no autorizado.
+ *         description: Lista de veterinarios obtenida exitosamente
  */
-router.get('/veterinarios', verificarAutenticacion, listarVeterinarios);
+router.get("/veterinarios", listarVeterinarios);
 
 /**
  * @swagger
- * /recuperar-password:
- *   post:
- *     summary: Enviar correo electrónico de recuperación de contraseña
- *     description: Enviar un correo electrónico de recuperación de contraseña al veterinario.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/RecuperarPasswordInput'
- *     responses:
- *       '200':
- *         description: Correo electrónico de recuperación de contraseña enviado exitosamente.
- */
-router.post('/recuperar-password', recuperarPassword);
-
-/**
- * @swagger
- * /recuperar-password/{token}:
+ * /veterinario/recuperar-password:
  *   get:
- *     summary: Verificar token de recuperación de contraseña
- *     description: Verificar si el token de recuperación de contraseña es válido.
+ *     summary: Iniciar proceso de recuperación de contraseña
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       '200':
+ *         description: Proceso de recuperación de contraseña iniciado
+ *       '400':
+ *         description: Campos incompletos o email no registrado
+ */
+router.get("/recuperar-password", recuperarPassword);
+
+/**
+ * @swagger
+ * /veterinario/recuperar-password/{token}:
+ *   get:
+ *     summary: Comprobar token de recuperación de contraseña
  *     parameters:
  *       - name: token
  *         in: path
  *         required: true
- *         description: Token de recuperación de contraseña
  *         schema:
  *           type: string
  *     responses:
  *       '200':
- *         description: Token de recuperación de contraseña verificado exitosamente.
- *       '400':
- *         description: Token inválido.
+ *         description: Token de recuperación de contraseña confirmado
+ *       '404':
+ *         description: Token no válido
  */
-
-router.get('/recuperar-password/:token', comprobarTokenPassword);
+router.get("/recuperar-password/:token", comprobarTokenPassword);
 
 /**
  * @swagger
- * /nuevo-password/{token}:
+ * /veterinario/nuevo-password/{token}:
  *   post:
- *     summary: Establecer nueva contraseña
- *     description: Establecer una nueva contraseña para el veterinario.
+ *     summary: Establecer nuevo password después de recuperación
  *     parameters:
  *       - name: token
  *         in: path
  *         required: true
- *         description: Token de recuperación de contraseña
  *         schema:
  *           type: string
  *     requestBody:
@@ -233,31 +156,45 @@ router.get('/recuperar-password/:token', comprobarTokenPassword);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/NuevoPasswordInput'
+ *             type: object
+ *             properties:
+ *               password:
+ *                 type: string
+ *               confirmpassword:
+ *                 type: string
+ *             required:
+ *               - password
+ *               - confirmpassword
  *     responses:
  *       '200':
- *         description: Nueva contraseña establecida exitosamente.
+ *         description: Password actualizado exitosamente
  *       '400':
- *         description: Datos inválidos o token inválido.
+ *         description: Campos incompletos o passwords no coinciden
+ *       '404':
+ *         description: Token no válido
  */
-router.post('/nuevo-password/:token', nuevoPassword);
+router.post("/nuevo-password/:token", nuevoPassword);
 
 /**
  * @swagger
- * /perfil:
+ * /veterinario/perfil:
  *   get:
- *     summary: Obtener perfil del veterinario
- *     description: Obtener el perfil del veterinario autenticado.
+ *     summary: Obtener perfil del veterinario autenticado
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       '200':
- *         description: Perfil del veterinario obtenido exitosamente.
+ *         description: Perfil del veterinario obtenido exitosamente
  *       '401':
- *         description: Acceso no autorizado.
+ *         description: No autorizado, se requiere autenticación
+ */
+router.get('/perfil', verificarAutenticacion, perfil);
+
+/**
+ * @swagger
+ * /veterinario/actualizarpassword:
  *   put:
- *     summary: Actualizar perfil del veterinario
- *     description: Actualizar el perfil del veterinario autenticado.
+ *     summary: Actualizar password del veterinario autenticado
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -265,52 +202,60 @@ router.post('/nuevo-password/:token', nuevoPassword);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ActualizarPerfilInput'
+ *             type: object
+ *             properties:
+ *               passwordactual:
+ *                 type: string
+ *               passwordnuevo:
+ *                 type: string
+ *             required:
+ *               - passwordactual
+ *               - passwordnuevo
  *     responses:
  *       '200':
- *         description: Perfil del veterinario actualizado exitosamente.
+ *         description: Password actualizado exitosamente
  *       '400':
- *         description: Datos inválidos.
+ *         description: Campos incompletos o password actual incorrecto
  *       '401':
- *         description: Acceso no autorizado.
+ *         description: No autorizado, se requiere autenticación
+ *       '404':
+ *         description: Veterinario no encontrado
  */
-router.route('/perfil')
-    .get(verificarAutenticacion, perfil)
-    .put(verificarAutenticacion, actualizarPerfil);
+router.put('/veterinario/actualizarpassword', verificarAutenticacion, actualizarPassword);
 
 /**
  * @swagger
  * /veterinario/{id}:
  *   get:
- *     summary: Obtener detalles de un veterinario
- *     description: Obtener los detalles de un veterinario por su ID.
+ *     summary: Obtener detalles de un veterinario por ID
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID del veterinario
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       '200':
- *         description: Detalles del veterinario obtenidos exitosamente.
- *       '400':
- *         description: ID inválido.
+ *         description: Detalles del veterinario obtenidos exitosamente
  *       '401':
- *         description: Acceso no autorizado.
+ *         description: No autorizado, se requiere autenticación
  *       '404':
- *         description: Veterinario no encontrado.
+ *         description: Veterinario no encontrado
+ */
+router.get('/veterinario/:id', verificarAutenticacion, detalleVeterinario);
+
+/**
+ * @swagger
+ * /veterinario/{id}:
  *   put:
- *     summary: Actualizar perfil de un veterinario
- *     description: Actualizar el perfil de un veterinario por su ID.
+ *     summary: Actualizar perfil de un veterinario por ID
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID del veterinario
  *         required: true
  *         schema:
  *           type: string
@@ -319,20 +264,42 @@ router.route('/perfil')
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ActualizarPerfilInput'
+ *             $ref: '#/components/schemas/VeterinarioInput'
  *     responses:
  *       '200':
- *         description: Perfil del veterinario actualizado exitosamente.
+ *         description: Perfil del veterinario actualizado exitosamente
  *       '400':
- *         description: Datos inválidos o ID inválido.
+ *         description: Campos incompletos o email ya registrado
  *       '401':
- *         description: Acceso no autorizado.
+ *         description: No autorizado, se requiere autenticación
  *       '404':
- *         description: Veterinario no encontrado.
+ *         description: Veterinario no encontrado
  */
-router.route('/veterinario/:id')
-    .get(verificarAutenticacion, detalleVeterinario)
-    .put(verificarAutenticacion, actualizarPerfil);
-    
-// Exportar el enrutador
+router.put('/veterinario/:id', verificarAutenticacion, actualizarPerfil);
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     VeterinarioInput:
+ *       type: object
+ *       properties:
+ *         nombre:
+ *           type: string
+ *         apellido:
+ *           type: string
+ *         direccion:
+ *           type: string
+ *         telefono:
+ *           type: number
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *       required:
+ *         - nombre
+ *         - apellido
+ *         - email
+ *         - password
+ */
+// Exportación
 export default router;
