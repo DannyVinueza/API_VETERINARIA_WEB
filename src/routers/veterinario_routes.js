@@ -28,7 +28,7 @@ const router = Router();
 
 /**
  * @swagger
- * /veterinario/login:
+ * /login:
  *   post:
  *     summary: Iniciar sesión
  *     requestBody:
@@ -55,7 +55,7 @@ router.post("/login", login);
 
 /**
  * @swagger
- * /veterinario/registro:
+ * /registro:
  *   post:
  *     summary: Registrar nuevo veterinario
  *     requestBody:
@@ -74,7 +74,7 @@ router.post("/registro", registro);
 
 /**
  * @swagger
- * /veterinario/confirmar/{token}:
+ * /confirmar/{token}:
  *   get:
  *     summary: Confirmar correo electrónico
  *     parameters:
@@ -93,7 +93,7 @@ router.get("/confirmar/:token", confirmEmail);
 
 /**
  * @swagger
- * /veterinario/veterinarios:
+ * /veterinarios:
  *   get:
  *     summary: Obtener lista de veterinarios
  *     responses:
@@ -104,7 +104,7 @@ router.get("/veterinarios", listarVeterinarios);
 
 /**
  * @swagger
- * /veterinario/recuperar-password:
+ * /recuperar-password:
  *   get:
  *     summary: Iniciar proceso de recuperación de contraseña
  *     parameters:
@@ -123,7 +123,7 @@ router.get("/recuperar-password", recuperarPassword);
 
 /**
  * @swagger
- * /veterinario/recuperar-password/{token}:
+ * /recuperar-password/{token}:
  *   get:
  *     summary: Comprobar token de recuperación de contraseña
  *     parameters:
@@ -142,7 +142,7 @@ router.get("/recuperar-password/:token", comprobarTokenPassword);
 
 /**
  * @swagger
- * /veterinario/nuevo-password/{token}:
+ * /nuevo-password/{token}:
  *   post:
  *     summary: Establecer nuevo password después de recuperación
  *     parameters:
@@ -177,7 +177,7 @@ router.post("/nuevo-password/:token", nuevoPassword);
 
 /**
  * @swagger
- * /veterinario/perfil:
+ * /perfil:
  *   get:
  *     summary: Obtener perfil del veterinario autenticado
  *     security:
