@@ -333,6 +333,6 @@ router.route('/perfil')
 router.route('/veterinario/:id')
     .get(verificarAutenticacion, detalleVeterinario)
     .put(verificarAutenticacion, actualizarPerfil);
-
+    
 // Exportar el enrutador
 export default router;

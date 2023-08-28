@@ -147,5 +147,4 @@ router.delete("/paciente/:id", verificarAutenticacion, eliminarPaciente);
  *         description: Campos incompletos
  */
 router.post("/paciente/registro", verificarAutenticacion, registrarPaciente);
-
 export default router;
