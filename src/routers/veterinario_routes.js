@@ -28,6 +28,32 @@ const router = Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     VeterinarioInput:
+ *       type: object
+ *       properties:
+ *         nombre:
+ *           type: string
+ *         apellido:
+ *           type: string
+ *         direccion:
+ *           type: string
+ *         telefono:
+ *           type: number
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *       required:
+ *         - nombre
+ *         - apellido
+ *         - email
+ *         - password
+ */
+
+/**
+ * @swagger
  * /login:
  *   post:
  *     summary: Iniciar sesión
@@ -99,6 +125,13 @@ router.get("/confirmar/:token", confirmEmail);
  *     responses:
  *       '200':
  *         description: Lista de veterinarios obtenida exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1
+ *                 nombre: Veterinario 1
+ *               - id: 2
+ *                 nombre: Veterinario 2
  */
 router.get("/veterinarios", listarVeterinarios);
 
@@ -185,6 +218,12 @@ router.post("/nuevo-password/:token", nuevoPassword);
  *     responses:
  *       '200':
  *         description: Perfil del veterinario obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               id: 1
+ *               nombre: Veterinario 1
+ *               email: veterinario1@example.com
  *       '401':
  *         description: No autorizado, se requiere autenticación
  */
@@ -239,6 +278,12 @@ router.put('/veterinario/actualizarpassword', verificarAutenticacion, actualizar
  *     responses:
  *       '200':
  *         description: Detalles del veterinario obtenidos exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               id: 1
+ *               nombre: Veterinario 1
+ *               email: veterinario1@example.com
  *       '401':
  *         description: No autorizado, se requiere autenticación
  *       '404':
@@ -276,30 +321,7 @@ router.get('/veterinario/:id', verificarAutenticacion, detalleVeterinario);
  *         description: Veterinario no encontrado
  */
 router.put('/veterinario/:id', verificarAutenticacion, actualizarPerfil);
-/**
- * @swagger
- * components:
- *   schemas:
- *     VeterinarioInput:
- *       type: object
- *       properties:
- *         nombre:
- *           type: string
- *         apellido:
- *           type: string
- *         direccion:
- *           type: string
- *         telefono:
- *           type: number
- *         email:
- *           type: string
- *         password:
- *           type: string
- *       required:
- *         - nombre
- *         - apellido
- *         - email
- *         - password
- */
+
+
 // Exportación
 export default router;
