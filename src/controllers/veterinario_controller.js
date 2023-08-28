@@ -148,7 +148,7 @@ const recuperarPassword = async (req, res) => {
     res.status(200).json({ msg: "Revisa tu correo electrónico para reestablecer tu cuenta" })
 }
 
-const comprobarTokenPasword = async (req, res) => {
+const comprobarTokenPassword = async (req, res) => {
     // Validar el token
     if (!(req.params.token)) return res.status(404).json({ msg: "Lo sentimos, no se puede validar la cuenta" })
     // Obtener el usuario en base al token
@@ -193,6 +193,6 @@ export {
     actualizarPerfil,
     actualizarPassword,
     recuperarPassword,
-    comprobarTokenPasword,
+    comprobarTokenPassword,
     nuevoPassword
 }
