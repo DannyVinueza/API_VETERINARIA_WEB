@@ -97,10 +97,22 @@ router.get("/paciente/:id", verificarAutenticacion, detallePaciente);
  *     responses:
  *       '200':
  *         description: Perfil del paciente actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Perfil del paciente actualizado exitosamente
  *       '400':
  *         description: Campos incompletos
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos
  *       '404':
  *         description: Paciente no encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Paciente no encontrado
  */
 router.put("/paciente/actualizar/:id", verificarAutenticacion, actualizarPaciente);
 
@@ -120,10 +132,22 @@ router.put("/paciente/actualizar/:id", verificarAutenticacion, actualizarPacient
  *     responses:
  *       '200':
  *         description: Paciente eliminado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Paciente eliminado exitosamente
  *       '400':
  *         description: Campos incompletos
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos
  *       '404':
  *         description: Paciente no encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Paciente no encontrado
  */
 router.delete("/paciente/eliminar/:id", verificarAutenticacion, eliminarPaciente);
 
@@ -143,10 +167,19 @@ router.delete("/paciente/eliminar/:id", verificarAutenticacion, eliminarPaciente
  *     responses:
  *       '200':
  *         description: Paciente registrado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Paciente registrado exitosamente
  *       '400':
  *         description: Campos incompletos
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos
  */
 router.post("/paciente/registro", verificarAutenticacion, registrarPaciente);
+
 
 /**
  * @swagger

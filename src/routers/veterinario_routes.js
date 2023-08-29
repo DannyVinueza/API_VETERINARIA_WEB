@@ -51,7 +51,6 @@ const router = Router();
  *         - email
  *         - password
  */
-
 /**
  * @swagger
  * /login:
@@ -74,8 +73,17 @@ const router = Router();
  *     responses:
  *       '200':
  *         description: Inicio de sesión exitoso
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Inicio de sesión exitoso
+ *               token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *       '400':
  *         description: Campos incompletos o credenciales incorrectas
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos o credenciales incorrectas
  */
 router.post("/login", login);
 
@@ -93,8 +101,16 @@ router.post("/login", login);
  *     responses:
  *       '200':
  *         description: Veterinario registrado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Veterinario registrado exitosamente
  *       '400':
  *         description: Campos incompletos o email ya registrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos o email ya registrado
  */
 router.post("/registro", registro);
 
@@ -112,10 +128,19 @@ router.post("/registro", registro);
  *     responses:
  *       '200':
  *         description: Correo electrónico confirmado, ya puedes iniciar sesión
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Correo electrónico confirmado, ya puedes iniciar sesión
  *       '404':
  *         description: Token inválido
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Token inválido
  */
 router.get("/confirmar/:token", confirmEmail);
+
 
 /**
  * @swagger
@@ -134,7 +159,6 @@ router.get("/confirmar/:token", confirmEmail);
  *                 nombre: Veterinario 2
  */
 router.get("/veterinarios", listarVeterinarios);
-
 /**
  * @swagger
  * /recuperar-password:
@@ -149,11 +173,18 @@ router.get("/veterinarios", listarVeterinarios);
  *     responses:
  *       '200':
  *         description: Proceso de recuperación de contraseña iniciado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Proceso de recuperación de contraseña iniciado. Por favor, verifica tu correo electrónico para continuar.
  *       '400':
  *         description: Campos incompletos o email no registrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos o el correo electrónico no está registrado.
  */
 router.get("/recuperar-password", recuperarPassword);
-
 /**
  * @swagger
  * /recuperar-password/{token}:
@@ -168,8 +199,16 @@ router.get("/recuperar-password", recuperarPassword);
  *     responses:
  *       '200':
  *         description: Token de recuperación de contraseña confirmado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Token de recuperación de contraseña confirmado. Puedes establecer una nueva contraseña.
  *       '404':
  *         description: Token no válido
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Token de recuperación de contraseña no válido o expirado.
  */
 router.get("/recuperar-password/:token", comprobarTokenPassword);
 
@@ -201,13 +240,24 @@ router.get("/recuperar-password/:token", comprobarTokenPassword);
  *     responses:
  *       '200':
  *         description: Password actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Contraseña actualizada exitosamente. Ahora puedes iniciar sesión con tu nueva contraseña.
  *       '400':
- *         description: Campos incompletos o passwords no coinciden
+ *         description: Campos incompletos o las contraseñas no coinciden
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos o las contraseñas no coinciden.
  *       '404':
  *         description: Token no válido
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Token de recuperación de contraseña no válido o expirado.
  */
 router.post("/nuevo-password/:token", nuevoPassword);
-
 /**
  * @swagger
  * /perfil:
@@ -226,6 +276,10 @@ router.post("/nuevo-password/:token", nuevoPassword);
  *               email: veterinario1@example.com
  *       '401':
  *         description: No autorizado, se requiere autenticación
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: No autorizado, se requiere autenticación.
  */
 router.get('/perfil', verificarAutenticacion, perfil);
 
@@ -253,15 +307,30 @@ router.get('/perfil', verificarAutenticacion, perfil);
  *     responses:
  *       '200':
  *         description: Password actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Password actualizado exitosamente
  *       '400':
  *         description: Campos incompletos o password actual incorrecto
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos o password actual incorrecto
  *       '401':
  *         description: No autorizado, se requiere autenticación
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: No autorizado, se requiere autenticación
  *       '404':
  *         description: Veterinario no encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Veterinario no encontrado
  */
 router.put('/veterinario/actualizarpassword', verificarAutenticacion, actualizarPassword);
-
 /**
  * @swagger
  * /veterinario/{id}:
@@ -286,8 +355,16 @@ router.put('/veterinario/actualizarpassword', verificarAutenticacion, actualizar
  *               email: veterinario1@example.com
  *       '401':
  *         description: No autorizado, se requiere autenticación
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: No autorizado, se requiere autenticación
  *       '404':
  *         description: Veterinario no encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Veterinario no encontrado
  */
 router.get('/veterinario/:id', verificarAutenticacion, detalleVeterinario);
 
@@ -313,12 +390,28 @@ router.get('/veterinario/:id', verificarAutenticacion, detalleVeterinario);
  *     responses:
  *       '200':
  *         description: Perfil del veterinario actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Perfil del veterinario actualizado exitosamente
  *       '400':
  *         description: Campos incompletos o email ya registrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Campos incompletos o email ya registrado
  *       '401':
  *         description: No autorizado, se requiere autenticación
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: No autorizado, se requiere autenticación
  *       '404':
  *         description: Veterinario no encontrado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Veterinario no encontrado
  */
 router.put('/veterinario/:id', verificarAutenticacion, actualizarPerfil);
 
