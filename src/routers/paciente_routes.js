@@ -25,6 +25,8 @@ const router = Router();
  *     summary: Obtener lista de pacientes
  *     security:
  *       - bearerAuth: []
+ *     tags:
+ *       - Pacientes
  *     responses:
  *       '200':
  *         description: Lista de pacientes obtenida exitosamente
@@ -47,6 +49,8 @@ router.get("/pacientes", verificarAutenticacion, listarPacientes);
  *     summary: Obtener detalles de un paciente por ID
  *     security:
  *       - bearerAuth: []
+ *     tags:
+ *       - Pacientes
  *     parameters:
  *       - name: id
  *         in: path
@@ -82,6 +86,8 @@ router.get("/paciente/:id", verificarAutenticacion, detallePaciente);
  *     summary: Actualizar perfil de un paciente por ID
  *     security:
  *       - bearerAuth: []
+ *     tags:
+ *       - Pacientes
  *     parameters:
  *       - name: id
  *         in: path
@@ -123,6 +129,8 @@ router.put("/paciente/actualizar/:id", verificarAutenticacion, actualizarPacient
  *     summary: Eliminar un paciente por ID
  *     security:
  *       - bearerAuth: []
+ *     tags:
+ *       - Pacientes
  *     parameters:
  *       - name: id
  *         in: path
@@ -158,6 +166,8 @@ router.delete("/paciente/eliminar/:id", verificarAutenticacion, eliminarPaciente
  *     summary: Registrar nuevo paciente
  *     security:
  *       - bearerAuth: []
+ *     tags:
+ *       - Pacientes
  *     requestBody:
  *       required: true
  *       content:

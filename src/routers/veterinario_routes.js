@@ -56,6 +56,8 @@ const router = Router();
  * /login:
  *   post:
  *     summary: Iniciar sesión
+ *     tags:
+ *      - Veterinarios
  *     requestBody:
  *       required: true
  *       content:
@@ -92,6 +94,8 @@ router.post("/login", login);
  * /registro:
  *   post:
  *     summary: Registrar nuevo veterinario
+ *     tags:
+ *      - Veterinarios
  *     requestBody:
  *       required: true
  *       content:
@@ -119,6 +123,8 @@ router.post("/registro", registro);
  * /confirmar/{token}:
  *   get:
  *     summary: Confirmar correo electrónico
+ *     tags:
+ *      - Veterinarios
  *     parameters:
  *       - name: token
  *         in: path
@@ -147,6 +153,8 @@ router.get("/confirmar/:token", confirmEmail);
  * /veterinarios:
  *   get:
  *     summary: Obtener lista de veterinarios
+ *     tags:
+ *      - Veterinarios
  *     responses:
  *       '200':
  *         description: Lista de veterinarios obtenida exitosamente
@@ -164,6 +172,8 @@ router.get("/veterinarios", listarVeterinarios);
  * /recuperar-password:
  *   get:
  *     summary: Iniciar proceso de recuperación de contraseña
+ *     tags:
+ *      - Veterinarios
  *     parameters:
  *       - in: query
  *         name: email
@@ -190,6 +200,8 @@ router.get("/recuperar-password", recuperarPassword);
  * /recuperar-password/{token}:
  *   get:
  *     summary: Comprobar token de recuperación de contraseña
+ *     tags:
+ *      - Veterinarios
  *     parameters:
  *       - name: token
  *         in: path
@@ -217,6 +229,8 @@ router.get("/recuperar-password/:token", comprobarTokenPassword);
  * /nuevo-password/{token}:
  *   post:
  *     summary: Establecer nuevo password después de recuperación
+ *     tags:
+ *      - Veterinarios
  *     parameters:
  *       - name: token
  *         in: path
@@ -263,6 +277,8 @@ router.post("/nuevo-password/:token", nuevoPassword);
  * /perfil:
  *   get:
  *     summary: Obtener perfil del veterinario autenticado
+ *     tags:
+ *      - Veterinarios
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -288,6 +304,8 @@ router.get('/perfil', verificarAutenticacion, perfil);
  * /veterinario/actualizarpassword:
  *   put:
  *     summary: Actualizar password del veterinario autenticado
+ *     tags:
+ *      - Veterinarios
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -336,6 +354,8 @@ router.put('/veterinario/actualizarpassword', verificarAutenticacion, actualizar
  * /veterinario/{id}:
  *   get:
  *     summary: Obtener detalles de un veterinario por ID
+ *     tags:
+ *      - Veterinarios
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -373,6 +393,8 @@ router.get('/veterinario/:id', verificarAutenticacion, detalleVeterinario);
  * /veterinario/{id}:
  *   put:
  *     summary: Actualizar perfil de un veterinario por ID
+ *     tags:
+ *      - Veterinarios
  *     security:
  *       - bearerAuth: []
  *     parameters:
