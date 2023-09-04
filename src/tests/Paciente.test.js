@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 import Paciente from "../models/Paciente.js"; // Asegúrate de que la ruta sea correcta
 import {
     listarPacientes,
+    detallePaciente,
+    registrarPaciente,
+
 } from "../controllers/paciente_controller.js";
 
 // Configuración de Jest
@@ -50,11 +53,64 @@ describe('Controlador de Pacientes', () => {
     });
 
     it('Debería obtener el detalle de un paciente', async () => {
-        // Agregar código de prueba aquí
+        // Crear un paciente de prueba en la base de datos
+        const nuevoPaciente = new Paciente({
+            nombre: 'Paciente de prueba',
+            propietario: 'Propietario de prueba',
+            email: 'correo@example.com',
+            celular: '123456789',
+            convencional: '987654321',
+            ingreso: new Date(),
+            sintomas: 'Síntomas de prueba',
+            veterinario: new mongoose.Types.ObjectId(),
+            estado: true,
+        });
+        await nuevoPaciente.save();
+
+        const req = {
+            params: { id: nuevoPaciente._id },
+        };
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+
+        await detallePaciente(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalled();
+
+        // Limpia la base de datos después de la prueba
+        await Paciente.findByIdAndDelete(nuevoPaciente._id);
     });
 
     it('Debería registrar un nuevo paciente', async () => {
-        // Agregar código de prueba aquí
+        const req = {
+            body: {
+                nombre: 'Paciente de prueba',
+                propietario: 'Propietario de prueba',
+                email: 'correo@example.com',
+                celular: '123456789',
+                convencional: '987654321',
+                ingreso: new Date(),
+                sintomas: 'Síntomas de prueba',
+            },
+            veterinarioBDD: {
+                _id: new mongoose.Types.ObjectId(), // Simula el veterinarioBDD en la solicitud
+            },
+        };
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+    
+        await registrarPaciente(req, res);
+    
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ msg: "Registro exitoso del paciente" });
+    
+        // Limpia la base de datos después de la prueba
+        await Paciente.findOneAndDelete({ nombre: 'Paciente de prueba' });
     });
 
     it('Debería actualizar los datos de un paciente', async () => {
