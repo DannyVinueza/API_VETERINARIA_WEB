@@ -11,7 +11,7 @@ import {
   
 // Configuración de Jest
 beforeAll(async () => {
-  await mongoose.connect('mongodb://localhost/testdb', {
+  await mongoose.connect('mongodb://0.0.0.0:27017/testdb', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
