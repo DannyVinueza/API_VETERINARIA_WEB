@@ -2,10 +2,15 @@ import Paciente from "../models/Paciente.js"
 import Veterinario from "../models/Veterinario.js"
 import mongoose from "mongoose"
 
-const listarPacientes = async (req,res)=>{
-    const pacientes = await Paciente.find({estado:true}).where('veterinario').equals(req.veterinarioBDD).select("-salida -createdAt -updatedAt -__v").populate('veterinario','_id nombre apellido')
-    res.status(200).json(pacientes)
+const listarPacientes = async (req, res) => {
+    const pacientes = await Paciente.find({ estado: true })
+        .where('veterinario')
+        .equals(req.veterinarioBDD)
+        .select("-salida -createdAt -updatedAt -__v")
+        .populate('veterinario', '_id nombre apellido');
+    res.status(200).json(pacientes);
 }
+
 
 const detallePaciente = async (req, res) => {
     const { id } = req.params
