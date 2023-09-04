@@ -170,16 +170,21 @@ router.get("/veterinarios", listarVeterinarios);
 /**
  * @swagger
  * /recuperar-password:
- *   get:
+ *   post:
  *     summary: Iniciar proceso de recuperación de contraseña
  *     tags:
  *      - Veterinarios
- *     parameters:
- *       - in: query
- *         name: email
- *         schema:
- *           type: string
- *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *             required:
+ *               - email
  *     responses:
  *       '200':
  *         description: Proceso de recuperación de contraseña iniciado
@@ -194,7 +199,7 @@ router.get("/veterinarios", listarVeterinarios);
  *             example:
  *               message: Campos incompletos o el correo electrónico no está registrado.
  */
-router.get("/recuperar-password", recuperarPassword);
+router.post("/recuperar-password", recuperarPassword);
 /**
  * @swagger
  * /recuperar-password/{token}:
