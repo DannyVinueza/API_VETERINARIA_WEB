@@ -38,7 +38,7 @@ const sendMailToRecoveryPassword = async(userMail,token)=>{
     html: `
     <h1>Sistema de gestión (VET-ESFOT 🐶 😺)</h1>
     <hr>
-    <a href="https://veterinary-managment.onrender.com/api/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
+    <a href="https://medpaws-veterinary.netlify.app/#/recuperar-password/${token}">Clic para reestablecer tu contraseña</a>
     <hr>
     <footer>Grandote te da la Bienvenida!</footer>
     `
