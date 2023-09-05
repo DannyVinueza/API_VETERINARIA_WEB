@@ -19,9 +19,15 @@ beforeAll(async () => {
     });
 });
 
+afterEach(async () => {
+    await Veterinario.deleteMany({});
+    await Paciente.deleteMany({});
+});
+
 afterAll(async () => {
     await mongoose.connection.close();
 });
+
 
 describe('Controlador de Pacientes', () => {
     it('Debería listar pacientes correctamente', async () => {
@@ -52,8 +58,6 @@ describe('Controlador de Pacientes', () => {
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalled();
 
-        // Limpia la base de datos después de la prueba
-        await Paciente.findByIdAndDelete(nuevoPaciente._id);
     });
 
     it('Debería obtener el detalle de un paciente', async () => {
@@ -84,8 +88,6 @@ describe('Controlador de Pacientes', () => {
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalled();
 
-        // Limpia la base de datos después de la prueba
-        await Paciente.findByIdAndDelete(nuevoPaciente._id);
     });
 
     it('Debería registrar un nuevo paciente', async () => {
@@ -121,10 +123,6 @@ describe('Controlador de Pacientes', () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ msg: "Registro exitoso del paciente" });
-
-        // Limpia la base de datos después de la prueba
-        await Paciente.findOneAndDelete({ nombre: 'Paciente de prueba' });
-        await Veterinario.findOneAndDelete({ _id: veterinarioPrueba._id });
     });
 
     it('Debería actualizar los datos de un paciente', async () => {
@@ -169,9 +167,6 @@ describe('Controlador de Pacientes', () => {
         expect(pacienteActualizado.nombre).toBe('Nuevo nombre');
         expect(pacienteActualizado.propietario).toBe('Nuevo propietario');
         // Verifica otros campos actualizados
-
-        // Limpia la base de datos después de la prueba
-        await Paciente.findByIdAndDelete(pacientePrueba._id);
     });
 
     it('Debería cambiar el estado y la fecha de salida de un paciente', async () => {
@@ -180,10 +175,10 @@ describe('Controlador de Pacientes', () => {
             nombre: 'Veterinario de prueba',
             // Otros campos de veterinario
         });
-    
+
         // Guardar el veterinario en la base de datos
         await veterinarioPrueba.save();
-    
+
         // Crear un paciente de prueba en la base de datos
         const pacientePrueba = new Paciente({
             nombre: 'Paciente a cambiar',
@@ -195,10 +190,10 @@ describe('Controlador de Pacientes', () => {
             sintomas: 'Síntomas de prueba',
             veterinario: veterinarioPrueba._id, // Asignar el veterinario de prueba
         });
-    
+
         // Guardar el paciente en la base de datos
         await pacientePrueba.save();
-    
+
         const req = {
             params: {
                 id: pacientePrueba._id, // ID del paciente creado
@@ -207,25 +202,19 @@ describe('Controlador de Pacientes', () => {
                 salida: new Date(), // Agregar una fecha de salida en el cuerpo de la solicitud
             },
         };
-    
+
         const res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn(),
         };
-    
+
         await eliminarPaciente(req, res);
-    
+
         // Verifica que el paciente haya sido actualizado con el estado y la fecha de salida correctos
         const pacienteActualizado = await Paciente.findById(pacientePrueba._id);
         expect(pacienteActualizado.estado).toBe(false); // Asegura que el estado sea falso
         expect(pacienteActualizado.salida).toBeDefined(); // Asegura que la fecha de salida esté definida
-    
-        // Limpia la base de datos después de la prueba
-        await Veterinario.findByIdAndDelete(veterinarioPrueba._id);
-        //await Paciente.findByIdAndDelete(pacientePrueba._id);
-
     });
-    
 
 
 });

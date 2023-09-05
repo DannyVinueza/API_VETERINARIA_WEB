@@ -33,6 +33,7 @@ const login = async (req, res) => {
         email: veterinarioBDD.email
     })
 }
+
 const perfil = async (req, res) => {
     delete req.veterinarioBDD.token
     delete req.veterinarioBDD.confirmEmail
@@ -45,6 +46,10 @@ const perfil = async (req, res) => {
 const registro = async (req, res) => {
     // Capturar los datos del body de la petición
     const { email, password } = req.body
+        // Agrega un registro de depuración para verificar los valores de email y password
+        console.log('Email:', email);
+        console.log('Password:', password);
+    
     // Validación de los campos vacíos
     if (Object.values(req.body).includes("")) return res.status(400).json({ msg: "Lo sentimos, debes llenar todos los campos" })
     //Verificar la existencia del mail Validacione
@@ -63,6 +68,7 @@ const registro = async (req, res) => {
     //Enviar la respuesta
     res.status(200).json({ msg: "Revisa tu correo electrónico para confirmar tu cuenta" })
 }
+
 const confirmEmail = async (req, res) => {
     // Validar el token del correo
     if (!(req.params.token)) return res.status(400).json({ msg: "Lo sentimos, no se puede validar la cuenta" })
